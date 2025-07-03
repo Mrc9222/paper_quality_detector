@@ -32,11 +32,13 @@ document.getElementById('imageUpload').addEventListener('change', async function
     // Clear previous class
     resultBox.classList.remove("result-ok", "result-scrap");
 
-    if (top.className.toLowerCase().includes("ok") && top.probability >= 0.8) {
-     resultBox.textContent = "✅ OK";
+    const percent = (top.probability * 100).toFixed(1) + "%";
+
+    if (top.className.toLowerCase().includes("blank") && top.probability >= 0.8) {
+     resultBox.textContent = `✅ OK (${percent})`;
      resultBox.classList.add("result-ok");
     } else {
-     resultBox.textContent = "❌ Scrap";
+     resultBox.textContent = `❌ Scrap (${percent})`;
      resultBox.classList.add("result-scrap");
     }
 
