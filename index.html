@@ -2,29 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Line Detector</title>
+  <title>Paper Quality Detector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      font-size: 80px;
+      margin-bottom: 300px;
+    }
+
+    /* Hide default file input */
+    #imageUpload {
+      display: none;
+    }
+
+    /* Custom label styled like a button */
+    .custom-upload {
+      background-color: #007bff;
+      color: white;
+      padding: 14px 28px;
+      font-size: 32px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-upload:hover {
+      background-color: #0056b3;
+    }
+
+    #preview {
+      max-width: 90%;
+      max-height: 400px;
+      margin-top: 30px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #result {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Line Detector</h1>
 
+  <h1>Paper Quality Detector</h1>
+
+  <!-- Styled label triggers hidden file input -->
+  <label for="imageUpload" class="custom-upload">📷 Take or Upload Photo</label>
   <input 
-  type="file" 
-  accept="image/*" 
-  capture="environment" 
-  id="imageUpload"
+    type="file" 
+    accept="image/*" 
+    capture="environment" 
+    id="imageUpload"
   />
-  <br><br>
 
-  <img id="preview" src="#" alt="Image preview" style="max-width: 300px; display: none;" />
-  
+  <br>
+  <img id="preview" src="#" alt="Image preview" style="display: none;" />
   <p id="result"></p>
- 
-  <!-- Load TensorFlow.js -->
+
+  <!-- TensorFlow + TM -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
-
-  <!-- Teachable Machine helper -->
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.4/dist/teachablemachine-image.min.js"></script>
-
   <script src="script.js"></script>
 </body>
 </html>
