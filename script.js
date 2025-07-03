@@ -32,7 +32,7 @@ document.getElementById('imageUpload').addEventListener('change', async function
     // Clear previous class
     resultBox.classList.remove("result-ok", "result-scrap");
 
-    if (top.className.toLowerCase().includes("blank") && top.probability >= 0.8) {
+    if (top.className.toLowerCase().includes("ok") && top.probability >= 0.8) {
      resultBox.textContent = "✅ OK";
      resultBox.classList.add("result-ok");
     } else {
