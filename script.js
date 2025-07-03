@@ -25,14 +25,23 @@ document.getElementById('imageUpload').addEventListener('change', async function
     // Wait for image to load before predicting
     img.onload = async () => {
       const prediction = await model.predict(img);
-      const resultEl = document.getElementById('result');
-      
-      // Find the class with highest probability
       const top = prediction.reduce((a, b) => (a.probability > b.probability) ? a : b);
-      
-      // Display result
-      resultEl.textContent = `Prediction: ${top.className} (${(top.probability * 100).toFixed(1)}%)`;
-      resultEl.style.fontSize = "18px";
+  
+      const resultBox = document.getElementById("resultBox");
+
+    // Clear previous class
+    resultBox.classList.remove("result-ok", "result-scrap");
+
+    if (top.className.toLowerCase().includes("blank") && top.probability >= 0.8) {
+     resultBox.textContent = "✅ OK";
+     resultBox.classList.add("result-ok");
+    } else {
+     resultBox.textContent = "❌ Scrap";
+     resultBox.classList.add("result-scrap");
+    }
+
+    resultBox.style.display = "block";
+    resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
     };
   };
   reader.readAsDataURL(file);
