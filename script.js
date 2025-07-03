@@ -1,13 +1,43 @@
-document.getElementById('imageUpload').addEventListener('change', function (event) {
+let model, labelContainer, maxPredictions;
+
+// Load the model
+async function loadModel() {
+  const URL = "my_model/";
+  const modelURL = URL + "model.json";
+  const metadataURL = URL + "metadata.json";
+
+  model = await tmImage.load(modelURL, metadataURL);
+  maxPredictions = model.getTotalClasses();
+  console.log("Model loaded");
+}
+
+// Handle image upload
+document.getElementById('imageUpload').addEventListener('change', async function (event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload = function (e) {
+  reader.onload = async function (e) {
     const img = document.getElementById('preview');
     img.src = e.target.result;
     img.style.display = 'block';
+
+    // Wait for image to load before predicting
+    img.onload = async () => {
+      const prediction = await model.predict(img);
+      const resultEl = document.getElementById('result');
+      
+      // Find the class with highest probability
+      const top = prediction.reduce((a, b) => (a.probability > b.probability) ? a : b);
+      
+      // Display result
+      resultEl.textContent = `Prediction: ${top.className} (${(top.probability * 100).toFixed(1)}%)`;
+      resultEl.style.fontSize = "18px";
+    };
   };
   reader.readAsDataURL(file);
 });
+
+// Load model on page load
+window.addEventListener("load", loadModel);
 
